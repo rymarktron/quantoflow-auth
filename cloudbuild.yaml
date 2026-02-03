@@ -1,0 +1,33 @@
+steps:
+  # Build Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/quantoflow/keycloak:latest'
+      - '-t'
+      - 'northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/quantoflow/keycloak:$SHORT_SHA'
+      - '.'
+
+  # Push to Artifact Registry (Canada region)
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/quantoflow/keycloak:latest'
+
+  # Deploy to Cloud Run (Canada region)
+  - name: 'gcr.io/cloud-builders/gke-deploy'
+    args:
+      - 'run'
+      - '--region=northamerica-northeast1'
+      - '--filename=.'
+
+images:
+  - 'northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/quantoflow/keycloak:latest'
+  - 'northamerica-northeast1-docker.pkg.dev/$PROJECT_ID/quantoflow/keycloak:$SHORT_SHA'
+
+options:
+  machineType: 'N1_HIGHCPU_8'
+  logging: CLOUD_LOGGING_ONLY
+
+timeout: '3600s'

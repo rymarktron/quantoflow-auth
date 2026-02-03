@@ -1,0 +1,48 @@
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Build artifacts
+target/
+build/
+dist/
+
+# Environment files
+.env
+.env.local
+
+# Keycloak data
+data/h2/
+logs/
+transaction-logs/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Node (for any frontend)
+node_modules/
+npm-debug.log
+
+# Cache
+.cache/
+*.cache
+
+# Documentation
+docs/
+*.md
+
+# Test files
+test/
+tests/
+*.test.js
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
