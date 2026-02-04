@@ -7,8 +7,7 @@ COPY themes/mytheme /opt/keycloak/themes/mytheme
 COPY conf/keycloak.conf /opt/keycloak/conf/keycloak.conf
 
 # Copy entrypoint script
-COPY docker-entrypoint.sh /opt/keycloak/docker-entrypoint.sh
-RUN chmod +x /opt/keycloak/docker-entrypoint.sh
+COPY --chmod=755 docker-entrypoint.sh /opt/keycloak/docker-entrypoint.sh
 
 # Health check endpoint
 HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
