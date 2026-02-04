@@ -54,7 +54,7 @@ echo "🔨 Building Docker image..."
 gcloud builds submit \
   --tag $REGION-docker.pkg.dev/$PROJECT_ID/quantoflow/$IMAGE_NAME:latest \
   --region $REGION \
-  --machine-type N1_HIGHCPU_8
+  --machine-type E2_HIGHCPU_8
 
 echo "✅ Image pushed to Artifact Registry"
 echo ""
