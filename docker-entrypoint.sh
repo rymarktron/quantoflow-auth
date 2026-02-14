@@ -8,5 +8,9 @@ export DB_HOST=${DB_HOST}
 export DB_PORT=${DB_PORT:-5432}
 export DB_NAME=${DB_NAME:-keycloak}
 
+# Add proxy configuration for Cloud Run
+export KC_PROXY=xforwarded
+export KC_PROXY_HEADERS=xforwarded
+
 # Run Keycloak
 exec /opt/keycloak/bin/kc.sh start
