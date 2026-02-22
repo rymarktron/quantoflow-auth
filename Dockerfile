@@ -1,7 +1,7 @@
 FROM quay.io/keycloak/keycloak:26.5.2
 
 # Copy custom theme
-COPY themes/mytheme /opt/keycloak/themes/mytheme
+COPY themes/quantoflow /opt/keycloak/themes/quantoflow
 
 # Copy configuration
 COPY conf/keycloak.conf /opt/keycloak/conf/keycloak.conf
