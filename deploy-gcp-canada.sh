@@ -8,9 +8,22 @@ set -e
 PROJECT_ID=${1:-}
 
 if [ -z "$PROJECT_ID" ]; then
-  echo "Usage: ./deploy-gcp-canada.sh YOUR_GCP_PROJECT_ID"
+  echo "Usage: ./deploy-gcp-canada.sh quantoflow-systems"
   echo "Example: ./deploy-gcp-canada.sh my-gcp-project"
   exit 1
+fi
+
+# Load environment variables or prompt for them
+if [ -f ".env" ]; then
+  echo "📋 Loading environment from .env file..."
+  export $(cat .env | grep -v '^#' | xargs)
+else
+  echo "📋 Enter database configuration:"
+  read -p "DB_USERNAME (default: postgres): " DB_USERNAME
+  DB_USERNAME=${DB_USERNAME:-postgres}
+  read -sp "DB_PASSWORD: " DB_PASSWORD
+  echo ""
+  read -p "DB_HOST: " DB_HOST
 fi
 
 REGION="northamerica-northeast1"  # Montreal, Canada
@@ -71,12 +84,7 @@ gcloud run deploy $SERVICE_NAME \
   --max-instances 10 \
   --allow-unauthenticated \
   --ingress all \
-  --set-env-vars \
-    DB_USERNAME=postgres,\
-    DB_PASSWORD=$DB_PASSWORD,\
-    DB_HOST=$DB_HOST,\
-    DB_PORT=5432,\
-    DB_NAME=keycloak \
+  --set-env-vars "DB_USERNAME=${DB_USERNAME},DB_PASSWORD=${DB_PASSWORD},DB_HOST=${DB_HOST},DB_PORT=5432,DB_NAME=keycloak" \
   --quiet
 
 echo ""
@@ -100,6 +108,6 @@ echo ""
 echo "🔧 View service details:"
 echo "   gcloud run services describe $SERVICE_NAME --region $REGION"
 echo ""
-echo "⚙️  To set a custom domain (auth.yourdomain.com):"
-echo "   gcloud run domain-mappings create --service $SERVICE_NAME --domain auth.yourdomain.com --region $REGION"
+echo "⚙️  To set a custom domain (identity.quantoflow.com):"
+echo "   gcloud run domain-mappings create --service $SERVICE_NAME --domain identity.quantoflow.com --region $REGION"
 echo ""
