@@ -2,3 +2,11 @@
     --pf-global--primary-color--100: var(--pf-global--palette--green-600);
     --pf-global--primary-color--200: var(--pf-global--palette--green-700);
 }
+
+#kc-header-wrapper {
+    background-image: url('../img/keycloak-logo-text.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    font-size: 0;
+}
